@@ -39,3 +39,9 @@ routes = client.directions(
 
 distance_m = routes["features"][0]["properties"]["segments"][0]["distance"]
 
+if distance_m >= 1000:
+    print(f"The distance between the two locations is {distance_m/1000} kilometers.")
+else:
+    print(f"The distance between the two locations is {distance_m} meters.")
+
+
