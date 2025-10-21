@@ -84,17 +84,22 @@ permutation_heuristic, distance_heuristic = solve_tsp_simulated_annealing(distan
 # Use the exact TSP solver function (dynamic programming as imported)
 permutation_exact, distance_exact = solve_tsp_dynamic_programming(distance_matrix)
 
-if distance_heuristic == distance_exact:
-    print("The heuristic and exact solutions match." + str(distance_exact) + " meters" + " Route: " + str(permutation_exact))
-elif distance_heuristic < distance_exact:
-    print("The heuristic solution is better than the exact solution, which is unexpected. " + str(distance_heuristic) + " meters" + " Route: " + str(permutation_heuristic))
+if distance_heuristic >= distance_exact:
+    print("The heuristic and exact solutions match." + str(distance_exact) + " meters" )
+    for idx in permutation_exact:
+        location = geolocator.reverse((coords[idx][1], coords[idx][0]))
+        if location:
+            print(f"{coords[idx]} -> {location.address}")
+        else:
+            print(f"Error: {coords[idx]} not found.")
+            print(f"Hiba: {coords[idx]} nem található.")
 else:
     print("The exact solution is better than the heuristic solution." + str(distance_exact) + " meters" + " Route: " + str(permutation_exact))
-for idx in permutation_exact:
-    location = geolocator.reverse((coords[idx][0], coords[idx][1]))
-    if location:
-        print(f"{coords[idx]} -> {location.address}")
-    else:
-        print(f"Error: {coords[idx]} not found.")
-        print(f"Hiba: {coords[idx]} nem található.")
+    for idx in permutation_heuristic:
+        location = geolocator.reverse((coords[idx][1], coords[idx][0]))
+        if location:
+            print(f"{coords[idx]} -> {location.address}")
+        else:
+            print(f"Error: {coords[idx]} not found.")
+            print(f"Hiba: {coords[idx]} nem található.")
         
